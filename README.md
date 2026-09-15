@@ -1,8 +1,8 @@
 <h1 align="center">Vivaldi Auto-Hide Fix</h1>
 
 <p align="center">
-  <strong>A local patch for Vivaldi sidebars that stay open after switching windows.</strong><br>
-  <em>Experimental candidate fix for macOS Vivaldi 8.2.4133.52 only.</em>
+  <strong>Closes Vivaldi sidebars left open after switching windows.</strong><br>
+  <em>Experimental patch for macOS Vivaldi 8.2.4133.52.</em>
 </p>
 
 <p align="center">
@@ -14,24 +14,24 @@
 ## What it does
 
 - Closes unpinned left and right auto-hide wrappers when a window loses focus
-- Clears stale hotspot state left behind by the window-focus handler
-- Preserves explicitly kept-open wrappers and top/bottom visibility
-- Keeps the exact original bundle for restoration and refuses to overwrite later edits
+- Clears stale hotspot state from the window-focus handler
+- Preserves kept-open wrappers and top and bottom visibility
+- Saves the original bundle and refuses to overwrite later edits
 
 ## Requirements
 
 - macOS with Vivaldi **8.2.4133.52** installed at `/Applications/Vivaldi.app`
-- [Bun](https://bun.sh) to run the script and tests; no dependencies to install
+- [Bun](https://bun.sh) to run the script and tests. No dependencies required.
 
 ## Usage
 
-Run commands from this project folder. Check that the installed bundle matches before applying:
+Run commands from this project folder. Check the installed bundle before applying:
 
 ```bash
 bun patch.js check
 ```
 
-Quit Vivaldi normally, then apply the patch:
+Quit Vivaldi, then apply the patch:
 
 ```bash
 bun patch.js apply
@@ -45,19 +45,19 @@ bun patch.js restore
 
 ## Built-in timing controls
 
-Vivaldi also includes timing controls that reduce normal sidebar hiding time without any patch:
+Vivaldi includes timing controls that reduce normal sidebar hiding time without a patch:
 
 1. Open Settings and search for `biscuit`.
 2. Under **Auto-Hide**, set **Close delay** to `100 ms` (default `800 ms`).
 3. Set **Closing animation speed** to `100 ms` (default `300 ms`).
 
-This cuts normal hiding time from roughly `1.1 seconds` to `0.2 seconds`. These settings are not changed by this project; set them manually.
+These settings reduce normal hiding time from roughly `1.1 seconds` to `0.2 seconds`. This project does not change them. Set them manually.
 
-The backup lives beside `bundle.js` as `bundle.js.autohide-original`. Restore the original before updating Vivaldi; browser updates may replace the patch.
+The backup lives beside `bundle.js` as `bundle.js.autohide-original`. Restore it before updating Vivaldi. Browser updates may replace the patch.
 
 ## How it works
 
-The installed window-focus reducer leaves hover visibility and hotspot state intact when a window becomes inactive. The script replaces exactly one matching handler in Vivaldi's `bundle.js` so focus loss clears that state. Missing, duplicate, or already patched targets are rejected.
+The window-focus reducer leaves hover visibility and hotspot state intact when a window becomes inactive. The script replaces one matching handler in Vivaldi's `bundle.js`, so focus loss clears that state. It rejects missing, duplicate, and already patched targets.
 
 ## Development
 
@@ -73,7 +73,7 @@ bun patch.js check   # verify the installed bundle matches
 
 ## Limits
 
-This is an experimental local patch, not an official Vivaldi fix. It does not address every possible cause of sticking while the same window remains active.
+This is an experimental local patch, not an official Vivaldi fix. It does not address every cause of sticking while the same window remains active.
 
 Modifying the signed application bundle can invalidate its code signature; macOS may reject the modified app. The script does not disable signing or security protections.
 
@@ -83,4 +83,4 @@ Modifying the signed application bundle can invalidate its code signature; macOS
 2. Hover the right sidebar, then activate the other window. The first sidebar should close.
 3. Check hover reopening, tab switching, address entry, and explicitly kept-open sidebars.
 
-Automated tests cover state transitions and patch matching, not the running browser or macOS signature acceptance.
+Automated tests cover state transitions and patch matching. They do not test the running browser or macOS signature acceptance.
