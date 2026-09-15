@@ -43,6 +43,16 @@ To undo, quit Vivaldi again and restore the original:
 bun patch.js restore
 ```
 
+## Built-in timing controls
+
+Vivaldi also includes timing controls that reduce normal sidebar hiding time without any patch:
+
+1. Open Settings and search for `biscuit`.
+2. Under **Auto-Hide**, set **Close delay** to `100 ms` (default `800 ms`).
+3. Set **Closing animation speed** to `100 ms` (default `300 ms`).
+
+This cuts normal hiding time from roughly `1.1 seconds` to `0.2 seconds`. These settings are not changed by this project; set them manually.
+
 The backup lives beside `bundle.js` as `bundle.js.autohide-original`. Restore the original before updating Vivaldi; browser updates may replace the patch.
 
 ## How it works
