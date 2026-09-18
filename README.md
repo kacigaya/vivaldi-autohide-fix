@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" alt="Vivaldi Auto-Hide Fix logo" width="140">
+</p>
+
 <h1 align="center">Vivaldi Auto-Hide Fix</h1>
 
 <p align="center">
